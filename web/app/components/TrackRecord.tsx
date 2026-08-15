@@ -44,13 +44,13 @@ export default function TrackRecord({ track }: { track: { generatedAt: string; r
 
   const stats: { label: string; value: string; sub?: string }[] = [
     { label: "Scored calls", value: String(p.scoredSignals), sub: p.tradeCount ? `${p.tradeCount} closed trades` : undefined },
-    { label: "Win rate", value: p.winRate == null ? "—" : `${(p.winRate * 100).toFixed(0)}%`, sub: `${p.wins}W / ${p.losses}L` },
+    { label: "Win rate", value: p.winRate == null ? "·" : `${(p.winRate * 100).toFixed(0)}%`, sub: `${p.wins}W / ${p.losses}L` },
     { label: "Avg return", value: fmtPct(p.avgReturn), sub: `over ${p.horizonDays}-day horizon` },
-    { label: "Net alpha vs S&P", value: p.netAlpha == null ? "—" : fmtPct(p.netAlpha), sub: p.netAlpha != null && p.netAlpha >= 0 ? "beating the market" : "trailing the market" },
-    { label: "Beat S&P 500", value: p.spxScored ? `${p.beatMarket}/${p.spxScored}` : "—" },
-    { label: "Max drawdown", value: p.maxDrawdown ? `${(p.maxDrawdown * 100).toFixed(0)}%` : "—", sub: "on signal equity curve" },
-    { label: "Longs", value: p.longCount ? `${(p.longWins / p.longCount) * 100}%` : "—", sub: p.longCount ? `${p.longWins}/${p.longCount} correct` : undefined },
-    { label: "Shorts", value: p.shortCount ? `${(p.shortWins / p.shortCount) * 100}%` : "—", sub: p.shortCount ? `${p.shortWins}/${p.shortCount} correct` : undefined },
+    { label: "Net alpha vs S&P", value: p.netAlpha == null ? "·" : fmtPct(p.netAlpha), sub: p.netAlpha != null && p.netAlpha >= 0 ? "beating the market" : "trailing the market" },
+    { label: "Beat S&P 500", value: p.spxScored ? `${p.beatMarket}/${p.spxScored}` : "·" },
+    { label: "Max drawdown", value: p.maxDrawdown ? `${(p.maxDrawdown * 100).toFixed(0)}%` : "·", sub: "on signal equity curve" },
+    { label: "Longs", value: p.longCount ? `${(p.longWins / p.longCount) * 100}%` : "·", sub: p.longCount ? `${p.longWins}/${p.longCount} correct` : undefined },
+    { label: "Shorts", value: p.shortCount ? `${(p.shortWins / p.shortCount) * 100}%` : "·", sub: p.shortCount ? `${p.shortWins}/${p.shortCount} correct` : undefined },
   ];
 
   const maxQ = Math.max(...p.byQuarter.map((q) => q.wins + q.losses), 1);
@@ -98,11 +98,11 @@ export default function TrackRecord({ track }: { track: { generatedAt: string; r
               <span className="h-2 w-2 rounded-full bg-ink animate-pulse-dot" style={{ animationDelay: "0.4s" }} />
             </div>
             <p className="text-sm text-ink-soft">
-              No scored signals yet{scope === "personal" ? " — run <code>/trade</code> in Discord" : " — the next long-term signal will land here"}.
+              No scored signals yet{scope === "personal" ? ". Run <code>/trade</code> in Discord" : ". The next long-term signal will land here"}.
             </p>
             <p className="max-w-sm text-xs leading-relaxed text-ink-faint">
               Signals have to survive the full horizon before we&apos;ll grade them. Holds are filed, never
-              scored — you can&apos;t be right about nothing.
+              scored. You can&apos;t be right about nothing.
             </p>
           </div>
         ) : (
@@ -133,7 +133,7 @@ export default function TrackRecord({ track }: { track: { generatedAt: string; r
                           </div>
                         </div>
                         <span className="num text-[10px] text-ink-soft">{q.label}</span>
-                        <span className="num text-[11px] font-semibold text-ink">{q.winRate == null ? "—" : `${(q.winRate * 100).toFixed(0)}%`}</span>
+                        <span className="num text-[11px] font-semibold text-ink">{q.winRate == null ? "·" : `${(q.winRate * 100).toFixed(0)}%`}</span>
                       </div>
                     );
                   })}
@@ -173,9 +173,9 @@ export default function TrackRecord({ track }: { track: { generatedAt: string; r
                           <td className="num py-2.5 pr-4 text-ink-soft">{fmtDate(s.signaled_at)}</td>
                           <td className="num py-2.5 pr-4 text-ink-soft">{fmtDate(s.exitDate)}</td>
                           <td className={`num py-2.5 pr-4 text-right font-semibold ${s.correct ? "text-good" : "text-bad"}`}>{fmtPct(s.ret)}</td>
-                          <td className="num py-2.5 pr-4 text-right text-ink-soft">{s.spxRet == null ? "—" : fmtPct(s.spxRet)}</td>
+                          <td className="num py-2.5 pr-4 text-right text-ink-soft">{s.spxRet == null ? "·" : fmtPct(s.spxRet)}</td>
                           <td className={`num py-2.5 pr-4 text-right ${s.alpha != null && s.alpha > 0 ? "text-good" : s.alpha != null ? "text-bad" : "text-ink-faint"}`}>
-                            {s.alpha == null ? "—" : fmtPct(s.alpha)}
+                            {s.alpha == null ? "·" : fmtPct(s.alpha)}
                           </td>
                         </tr>
                       );

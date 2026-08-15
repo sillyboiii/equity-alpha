@@ -1,5 +1,5 @@
 export function fmtMoney(v: number | null | undefined, currency = "USD"): string {
-  if (v == null || !Number.isFinite(v)) return "—";
+  if (v == null || !Number.isFinite(v)) return "·";
   const sym = currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "GBP" ? "£" : `${currency} `;
   if (Math.abs(v) >= 1_000_000_000_000) return `${sym}${(v / 1_000_000_000_000).toFixed(2)}T`;
   if (Math.abs(v) >= 1_000_000_000) return `${sym}${(v / 1_000_000_000).toFixed(2)}B`;
@@ -9,17 +9,17 @@ export function fmtMoney(v: number | null | undefined, currency = "USD"): string
 }
 
 export function fmtPrice(v: number | null | undefined): string {
-  if (v == null || !Number.isFinite(v)) return "—";
+  if (v == null || !Number.isFinite(v)) return "·";
   return v >= 1000 ? `$${v.toFixed(0)}` : `$${v.toFixed(2)}`;
 }
 
 export function fmtPct(v: number | null | undefined, digits = 1): string {
-  if (v == null || !Number.isFinite(v)) return "—";
+  if (v == null || !Number.isFinite(v)) return "·";
   return `${v >= 0 ? "+" : ""}${(v * 100).toFixed(digits)}%`;
 }
 
 export function fmtMarketCap(v: number | null | undefined): string {
-  if (v == null || !Number.isFinite(v)) return "—";
+  if (v == null || !Number.isFinite(v)) return "·";
   if (v >= 1_000_000_000_000) return `$${(v / 1_000_000_000_000).toFixed(2)}T`;
   if (v >= 1_000_000_000) return `$${(v / 1_000_000_000).toFixed(1)}B`;
   if (v >= 1_000_000) return `$${(v / 1_000_000).toFixed(1)}M`;
@@ -27,7 +27,7 @@ export function fmtMarketCap(v: number | null | undefined): string {
 }
 
 export function fmtDate(iso: string): string {
-  if (!iso) return "—";
+  if (!iso) return "·";
   const d = iso.slice(0, 10);
   const [y, m, day] = d.split("-");
   return `${m}/${day}/${y.slice(2)}`;

@@ -16,9 +16,9 @@ const brandSans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "QNTL — Research that respects the trend",
+  title: "QNTL | Research that respects the trend",
   description:
-    "QNTL scores long-term trends against a valuation guardrail. We never buy a falling knife, never overpay, and log every call to a public ledger — no cherry-picking, just receipts.",
+    "QNTL scores long-term trends against a valuation guardrail. We never buy a falling knife, never overpay, and log every call to a public ledger. No cherry-picking, just receipts.",
 };
 
 export default function RootLayout({

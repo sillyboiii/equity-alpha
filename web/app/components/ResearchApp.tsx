@@ -5,11 +5,14 @@ import CountUp from "./CountUp";
 import HowItWorks from "./HowItWorks";
 import Hub from "./Hub";
 import MarketsStrip from "./MarketsStrip";
+import NewsStrip from "./NewsStrip";
 import PriceChart from "./PriceChart";
 import Reveal from "./Reveal";
 import Screener from "./Screener";
 import ThemeToggle from "./ThemeToggle";
 import TrackRecord from "./TrackRecord";
+import Watchlist from "./Watchlist";
+import { useWatchlist } from "./watchlistStore";
 import {
   ema,
   fmtMarketCap,
@@ -68,7 +71,7 @@ const COMPONENT_LABELS: Record<string, string> = {
   quality: "Quality",
 };
 const GUARD_TEXT: Record<string, string> = {
-  noOverpay: "Won't overpay — refusing to pay a premium for the trend",
+  noOverpay: "Won't overpay. Refuses to pay a premium for the trend",
   noKnifeCatch: "Won't catch falling knives",
   noPumpShort: "Won't short a momentum pump",
 };
@@ -165,6 +168,7 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
   const [error, setError] = useState<string | null>(null);
   const [recent, setRecent] = useState<{ symbol: string; verdict: string; ts: string }[]>([]);
   const resultRef = useRef<HTMLDivElement>(null);
+  const { list: watchlist, toggle: toggleWatch } = useWatchlist();
 
   function go(t: Tab) {
     setTab(t);
@@ -200,7 +204,7 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? "Research failed");
       setData(json);
-      remember(t, json.analysis?.verdict ?? "—");
+      remember(t, json.analysis?.verdict ?? "·");
       setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Research failed");
@@ -272,8 +276,10 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
       <main id="top">
         {tab === "hub" && (
           <div key="hub" className="animate-tab-in">
-            <Hub onEnter={go} />
             <MarketsStrip />
+            <Hub onEnter={go} />
+            <Watchlist onResearch={(s: string) => run(s)} />
+            <NewsStrip />
           </div>
         )}
 
@@ -401,6 +407,32 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
                   <div className="mt-4">
                     <ScoreGauge score={a.score} />
                   </div>
+                  <div className="mt-4">
+                    <button
+                      onClick={() => toggleWatch(data.symbol)}
+                      className={`flex w-full items-center justify-center gap-1.5 rounded-full border px-4 py-2 text-xs font-semibold transition-colors ${
+                        watchlist.includes(data.symbol)
+                          ? "border-good/40 bg-good/10 text-good"
+                          : "border-hairline text-ink-soft hover:border-ink hover:text-ink"
+                      }`}
+                    >
+                      {watchlist.includes(data.symbol) ? (
+                        <>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+                            <path d="M20 6L9 17l-5-5" />
+                          </svg>
+                          On watchlist
+                        </>
+                      ) : (
+                        <>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="h-3.5 w-3.5">
+                            <path d="M12 5v14M5 12h14" />
+                          </svg>
+                          Add to watchlist
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -443,14 +475,14 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
                 <div>
                   <IndRow
                     label="RSI (14)"
-                    value={a.indicators.rsi == null ? "—" : a.indicators.rsi.toFixed(0)}
+                    value={a.indicators.rsi == null ? "·" : a.indicators.rsi.toFixed(0)}
                     tone={a.indicators.rsi != null ? (a.indicators.rsi > 70 ? "bad" : a.indicators.rsi < 30 ? "bad" : a.indicators.rsi >= 55 ? "good" : "flat") : "flat"}
                   />
                   <IndRow
                     label="vs 50-day EMA"
                     value={(() => {
                       const g = vs(a.indicators.ema50);
-                      return g == null ? "—" : fmtPct(g / 100);
+                      return g == null ? "·" : fmtPct(g / 100);
                     })()}
                     tone={(() => {
                       const g = vs(a.indicators.ema50);
@@ -461,17 +493,17 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
                     label="vs 200-day EMA"
                     value={(() => {
                       const g = vs(a.indicators.ema200);
-                      return g == null ? "—" : fmtPct(g / 100);
+                      return g == null ? "·" : fmtPct(g / 100);
                     })()}
                     tone={(() => {
                       const g = vs(a.indicators.ema200);
                       return g != null && g > 0 ? "good" : "bad";
                     })()}
                   />
-                  <IndRow label="ATR (14)" value={a.indicators.atrPct == null ? "—" : `${a.indicators.atrPct.toFixed(2)}%`} tone={a.indicators.atrPct != null && a.indicators.atrPct > 6 ? "bad" : "flat"} />
+                  <IndRow label="ATR (14)" value={a.indicators.atrPct == null ? "·" : `${a.indicators.atrPct.toFixed(2)}%`} tone={a.indicators.atrPct != null && a.indicators.atrPct > 6 ? "bad" : "flat"} />
                   <IndRow
                     label="MACD histogram"
-                    value={a.indicators.macdHistogram == null ? "—" : a.indicators.macdHistogram >= 0 ? "positive" : "negative"}
+                    value={a.indicators.macdHistogram == null ? "·" : a.indicators.macdHistogram >= 0 ? "positive" : "negative"}
                     tone={a.indicators.macdHistogram == null ? "flat" : a.indicators.macdHistogram >= 0 ? "good" : "bad"}
                   />
                   <IndRow label="Quality grade" value={a.grades.quality} tone={a.grades.quality === "STRONG" || a.grades.quality === "GOOD" ? "good" : a.grades.quality === "WEAK" || a.grades.quality === "POOR" ? "bad" : "flat"} />
@@ -490,7 +522,7 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
                   <span className={`num text-sm font-semibold ${
                     fair.marginOfSafety != null && fair.marginOfSafety > 0 ? "text-good" : fair.marginOfSafety != null ? "text-bad" : "text-ink-soft"
                   }`}>
-                    Margin of safety {fair.marginOfSafety == null ? "—" : fmtPct(fair.marginOfSafety)}
+                    Margin of safety {fair.marginOfSafety == null ? "·" : fmtPct(fair.marginOfSafety)}
                   </span>
                 </div>
                 <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -532,7 +564,7 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
                       <p className="text-[10px] uppercase tracking-widest text-ink-faint">{label} case</p>
                       <p className="num mt-2 text-2xl font-semibold text-ink">{fmtPrice(scenarios[k])}</p>
                       <p className={`num mt-1 text-sm font-semibold ${good ? "text-good" : up != null ? "text-bad" : "text-ink-faint"}`}>
-                        {up == null ? "—" : `${fmtPct(up)} from today`}
+                        {up == null ? "·" : `${fmtPct(up)} from today`}
                       </p>
                     </div>
                   );
@@ -605,10 +637,10 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
             )}
 
             <div className="mt-6 rounded-2xl border border-hairline-soft bg-paper px-6 py-4 text-[11px] leading-relaxed text-ink-faint">
-              <span className="font-semibold uppercase tracking-widest text-ink-soft">Method</span>{" "}
-              — six signals (trend, momentum, volatility, volume, value, quality) weighed into one conviction
-              score (−1…+1), then put on a leash: the trend rules are law. Long-term research only, informational —
-              not financial advice, and definitely not a vibes check.
+              <span className="font-semibold uppercase tracking-widest text-ink-soft">Method</span>. Six signals
+              (trend, momentum, volatility, volume, value, quality) weighed into one conviction score (−1…+1),
+              then put on a leash. The trend rules are law. Long-term research only, informational. Not financial
+              advice, and definitely not a vibes check.
             </div>
               </section>
             )}
@@ -642,7 +674,7 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.png" alt="QNTL" height={22} className="h-[22px] w-auto" />
             <span className="font-display text-sm font-semibold text-ink">QNTL</span>
-            <span>— the trend is your friend. The knife is not.</span>
+            <span>The trend is your friend. The knife is not.</span>
           </span>
           <div className="flex items-center gap-4">
             {TABS.map((t) => (
@@ -650,6 +682,14 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
                 {t.label}
               </button>
             ))}
+            <a
+              href="https://github.com/sillyboiii/equity-alpha/blob/main/ROADMAP.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-ink"
+            >
+              Roadmap
+            </a>
             <ThemeToggle />
           </div>
           <span>Informational, not financial advice. Check your own knives.</span>

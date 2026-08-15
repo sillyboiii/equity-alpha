@@ -23,14 +23,20 @@ export default function MarketsStrip() {
 
   if (!rows?.length) return null;
 
+  const items = [...rows, ...rows];
+
   return (
-    <section className="border-y border-hairline-soft bg-panel/60">
-      <div className="mx-auto flex w-full max-w-5xl items-stretch justify-between gap-4 overflow-x-auto px-5 py-3">
-        {rows.map((r) => {
+    <section className="relative overflow-hidden border-b border-hairline-soft bg-paper/60">
+      <div className="animate-tape flex w-max items-center hover:[animation-play-state:paused]">
+        {items.map((r, i) => {
           const up = r.changePct != null && r.changePct > 0;
           const down = r.changePct != null && r.changePct < 0;
           return (
-            <div key={r.symbol} className="flex min-w-[86px] flex-col items-start gap-0.5">
+            <div
+              key={`${r.symbol}-${i}`}
+              className="flex items-center gap-2.5 px-6 py-2.5"
+              aria-hidden={i >= rows.length}
+            >
               <span className="text-[10px] font-semibold uppercase tracking-widest text-ink-faint">{r.label}</span>
               <span className="num text-sm font-semibold text-ink">{fmtPrice(r.price)}</span>
               <span
@@ -38,8 +44,9 @@ export default function MarketsStrip() {
                   r.changePct == null ? "text-ink-faint" : up ? "text-good" : down ? "text-bad" : "text-ink-faint"
                 }`}
               >
-                {r.changePct == null ? "—" : `${up ? "+" : ""}${fmtPct(r.changePct)}`}
+                {r.changePct == null ? "·" : `${up ? "+" : ""}${fmtPct(r.changePct)}`}
               </span>
+              <span className="ml-2 h-3 w-px bg-hairline-soft" aria-hidden />
             </div>
           );
         })}

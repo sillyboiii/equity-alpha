@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { fmtPrice, fmtPct, VERDICT_STYLE } from "./format";
+import { useWatchlist } from "./watchlistStore";
 
 type Row = {
   symbol: string;
@@ -39,6 +40,7 @@ export default function Screener({ onResearch }: { onResearch: (symbol: string) 
   const [rows, setRows] = useState<Row[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { list: watchlist, toggle: toggleWatch } = useWatchlist();
 
   async function scan() {
     const list = universe ? UNIVERSES[universe] : custom.split(",").map((s) => s.trim()).filter(Boolean);
@@ -69,7 +71,7 @@ export default function Screener({ onResearch }: { onResearch: (symbol: string) 
             Scan the board.
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-ink-soft">
-            Score a whole universe in one pass — trend, momentum, volatility, value and quality in a single
+            Score a whole universe in one pass. Trend, momentum, volatility, value and quality in a single
             conviction number. Then click any row to run the full deep-dive.
           </p>
         </div>
@@ -148,10 +150,32 @@ export default function Screener({ onResearch }: { onResearch: (symbol: string) 
                 const vs = VERDICT_STYLE[r.verdict] ?? VERDICT_STYLE.HOLD;
                 return (
                   <tr key={r.symbol} className="border-b border-hairline-soft transition-colors last:border-0 hover:bg-paper">
-                    <td className="py-3 pl-5 pr-4">
-                      <span className="font-semibold text-ink">{r.symbol}</span>
-                      <span className="block max-w-[160px] truncate text-[11px] text-ink-faint">{r.name}</span>
-                    </td>
+                        <td className="py-3 pl-5 pr-4">
+                          <span className="flex items-center gap-1.5">
+                            <button
+                              onClick={() => toggleWatch(r.symbol)}
+                              aria-label={watchlist.includes(r.symbol) ? `Remove ${r.symbol} from watchlist` : `Add ${r.symbol} to watchlist`}
+                              title={watchlist.includes(r.symbol) ? "On watchlist" : "Add to watchlist"}
+                              className={`flex h-5 w-5 items-center justify-center rounded-full border transition-colors ${
+                                watchlist.includes(r.symbol)
+                                  ? "border-good/40 bg-good/10 text-good"
+                                  : "border-hairline text-ink-faint hover:border-ink hover:text-ink"
+                              }`}
+                            >
+                              {watchlist.includes(r.symbol) ? (
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="h-2.5 w-2.5">
+                                  <path d="M20 6L9 17l-5-5" />
+                                </svg>
+                              ) : (
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="h-2.5 w-2.5">
+                                  <path d="M12 5v14M5 12h14" />
+                                </svg>
+                              )}
+                            </button>
+                            <span className="font-semibold text-ink">{r.symbol}</span>
+                          </span>
+                          <span className="block max-w-[160px] truncate pl-[26px] text-[11px] text-ink-faint">{r.name}</span>
+                        </td>
                     {r.error ? (
                       <td colSpan={7} className="py-3 pr-5 text-sm text-bad">
                         {r.error}
@@ -169,12 +193,12 @@ export default function Screener({ onResearch }: { onResearch: (symbol: string) 
                           {r.score.toFixed(2)}
                         </td>
                         <td className={`num py-3 pr-4 text-right ${r.rsi == null ? "text-ink-faint" : r.rsi > 70 || r.rsi < 30 ? "text-bad" : "text-ink-soft"}`}>
-                          {r.rsi == null ? "—" : r.rsi.toFixed(0)}
+                          {r.rsi == null ? "·" : r.rsi.toFixed(0)}
                         </td>
-                        <td className="num py-3 pr-4 text-right text-ink-soft">{r.atrPct == null ? "—" : `${r.atrPct.toFixed(1)}%`}</td>
-                        <td className="py-3 pr-4 text-ink-soft">{r.grades?.quality ?? "—"}</td>
+                        <td className="num py-3 pr-4 text-right text-ink-soft">{r.atrPct == null ? "·" : `${r.atrPct.toFixed(1)}%`}</td>
+                        <td className="py-3 pr-4 text-ink-soft">{r.grades?.quality ?? "·"}</td>
                         <td className={`py-3 pr-4 ${r.grades?.value === "CHEAP" ? "text-good" : r.grades?.value === "EXPENSIVE" ? "text-bad" : "text-ink-soft"}`}>
-                          {r.grades?.value ?? "—"}
+                          {r.grades?.value ?? "·"}
                         </td>
                         <td className="py-3 pr-5 text-right">
                           <button

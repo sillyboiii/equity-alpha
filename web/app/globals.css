@@ -58,6 +58,7 @@
   --animate-hero-word: hero-word 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-hero-logo: hero-logo 1s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-tab-in: tab-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-tape: tape 32s linear infinite;
   --animate-scan: scan 2.2s ease-in-out infinite;
 
   @keyframes fade-up {
@@ -111,6 +112,15 @@
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes tape {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
     }
   }
 

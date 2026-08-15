@@ -6,13 +6,13 @@ const ENTRIES: { id: EntryId; title: string; body: string; tag: string }[] = [
   {
     id: "research",
     title: "Deep-dive research",
-    body: "Score any ticker on six signals — trend, momentum, volatility, volume, value, quality — into one conviction call with a full breakdown.",
+    body: "Score any ticker on six signals (trend, momentum, volatility, volume, value, quality) into one conviction call with a full breakdown.",
     tag: "Any ticker, no judgment",
   },
   {
     id: "board",
     title: "Board scan",
-    body: "Scan a whole universe in one pass. Mag 7, Chips, Retail, Pharma, Energy — or roll your own list and see who's flashing green.",
+    body: "Scan a whole universe in one pass. Mag 7, Chips, Retail, Pharma, Energy, or roll your own list and see who's flashing green.",
     tag: "Whole sectors, one pass",
   },
   {
@@ -61,7 +61,7 @@ export default function Hub({ onEnter }: { onEnter: (tab: EntryId) => void }) {
           </span>
         </h1>
         <p className="relative mx-auto mt-5 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
-          QNTL scores long-term trends against a valuation guardrail — it refuses to overpay, won&apos;t
+          QNTL scores long-term trends against a valuation guardrail. It refuses to overpay, won&apos;t
           catch falling knives, and logs every call to a public ledger. No cherry-picking. No rose-tinted
           hindsight. Just the receipts.
         </p>

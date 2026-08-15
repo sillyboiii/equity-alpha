@@ -1,6 +1,6 @@
 const SIGNALS = [
   { name: "Trend", blurb: "Where the 50/200-day EMAs sit, and which way price respects them. The boss signal." },
-  { name: "Momentum", blurb: "RSI and MACD — how hard the tape is pushing, and whether the push is real." },
+  { name: "Momentum", blurb: "RSI and MACD. How hard the tape is pushing, and whether the push is real." },
   { name: "Volatility", blurb: "ATR vs. realized range. Volatility is fuel, but a blown fuel line still burns you." },
   { name: "Volume", blurb: "Whether the move is backed by money or just echo. Price without volume is a rumor." },
   { name: "Value", blurb: "PE, margin of safety, and blended DCF vs. where the tape is trading today." },
@@ -10,7 +10,7 @@ const SIGNALS = [
 const GUARDS = [
   {
     title: "No falling knives",
-    body: "We only buy trends that are still intact. A collapsing chart has to earn its way back onto the list — nobody catches knives around here.",
+    body: "We only buy trends that are still intact. A collapsing chart has to earn its way back onto the list. Nobody catches knives around here.",
   },
   {
     title: "No overpaying",
@@ -58,7 +58,7 @@ export default function HowItWorks() {
       </div>
 
       <div className="mt-6 rounded-2xl border border-hairline-soft bg-panel px-6 py-5 text-sm text-ink-soft">
-        <span className="font-semibold uppercase tracking-widest text-ink-soft">The ledger</span> — every
+        <span className="font-semibold uppercase tracking-widest text-ink-soft">The ledger</span>. Every
         non-hold signal is timestamped at entry, re-checked at its 30-day exit, and compared against the S&amp;P 500.
         Holds are filed, never graded. The full record is public, below.
       </div>

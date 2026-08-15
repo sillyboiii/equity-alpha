@@ -92,6 +92,36 @@ export async function lookup(ticker) {
   };
 }
 
+export async function getNews({ queries = ["^GSPC", "NVDA", "AAPL", "TSLA"], max = 8 } = {}) {
+  const items = [];
+  for (const q of queries) {
+    try {
+      const res = await withRetry(() => MARKET.search(q, { quotesCount: 0, newsCount: 5 }), { label: `news ${q}` });
+      for (const n of res.news ?? []) {
+        items.push({
+          title: n.title,
+          link: n.link,
+          publisher: n.publisher ?? null,
+          ts: n.providerPublishTime ? n.providerPublishTime * 1000 : null,
+          tickers: (n.relatedTickers ?? []).slice(0, 3),
+        });
+      }
+    } catch {
+      // a dead news query shouldn't sink the whole section
+    }
+  }
+  const seen = new Set();
+  const out = [];
+  for (const it of items) {
+    const key = it.title.toLowerCase().trim();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(it);
+    if (out.length >= max) break;
+  }
+  return out;
+}
+
 export async function enrichQuote(symbol) {
   try {
     const summary = await withRetry(() => MARKET.quoteSummary(symbol, {
