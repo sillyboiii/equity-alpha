@@ -212,8 +212,12 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
     <div className="min-h-screen">
       <header className="sticky top-0 z-40 border-b border-hairline bg-paper/90 backdrop-blur">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-4">
-          <a href="#top" className="font-display text-xl font-semibold tracking-tight text-ink">
-            QNTL<span className="italic text-ink-soft">.</span>
+          <a href="#top" className="flex items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="QNTL" height={26} className="h-[26px] w-auto" />
+            <span className="font-display text-xl font-semibold tracking-tight text-ink">
+              QNTL<span className="italic text-ink-soft">.</span>
+            </span>
           </a>
           <nav className="flex items-center gap-6 text-sm text-ink-soft">
             <a href="#track" className="transition-colors hover:text-ink">Track record</a>
