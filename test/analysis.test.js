@@ -1,10 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { sma, ema, rsi, macd, atr, bollinger, verdictFor, analyze, DEFAULT_WEIGHTS, qualityGrade, valueGrade, volatilityRiskFor, buildThesis, fairValueAnalysis, scenarioAnalysis, suggestedSize } from "../src/analysis.js";
-import { trendStrategy } from "../src/strategies/trend.js";
-import { swingStrategy } from "../src/strategies/swing.js";
+import { sma, ema, rsi, macd, atr, bollinger, verdictFor, analyze, DEFAULT_WEIGHTS, qualityGrade, valueGrade, volatilityRiskFor, buildThesis, fairValueAnalysis, scenarioAnalysis, suggestedSize } from "../web/src/analysis.js";
+import { trendStrategy } from "../web/src/strategies/trend.js";
+import { swingStrategy } from "../web/src/strategies/swing.js";
 import { financialInsights } from "../src/deepdive.js";
-import { peerComp } from "../src/comps.js";
+import { peerComp } from "../web/src/comps.js";
 
 function makeCloses(n, base = 100, step = 1) {
   const out = [];

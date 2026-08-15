@@ -1,5 +1,5 @@
-import { analyze, DEFAULT_WEIGHTS } from "./analysis.js";
-import { getHistory } from "./market.js";
+import { analyze, DEFAULT_WEIGHTS } from "../web/src/analysis.js";
+import { getHistory } from "../web/src/market.js";
 
 const TECH_WEIGHTS = {
   trend: DEFAULT_WEIGHTS.trend,

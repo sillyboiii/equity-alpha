@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { researchTicker } from "../../../../src/research.js";
+import { researchTicker } from "../../../src/research.js";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;

@@ -1,13 +1,13 @@
 import { Client, GatewayIntentBits, ChannelType } from "discord.js";
 import { Store } from "./store.js";
-import { researchTicker, refreshBenchmark } from "./research.js";
+import { researchTicker, refreshBenchmark } from "../web/src/research.js";
 import { startAutoEvaluation } from "./autoeval.js";
 import { researchEmbeds, performanceEmbed, screenTable } from "./report.js";
-import { lookup } from "./market.js";
+import { lookup } from "../web/src/market.js";
 import { backtestTicker, backtestSummary } from "./backtest.js";
 import { simulate, simSummary } from "./sim.js";
 import { buildDeepDive, deepDiveEmbeds } from "./deepdive.js";
-import { listStrategies } from "./strategies/index.js";
+import { listStrategies } from "../web/src/strategies/index.js";
 
 const store = new Store();
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });

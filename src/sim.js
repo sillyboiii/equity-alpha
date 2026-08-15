@@ -1,5 +1,5 @@
 import { backtestTicker } from "./backtest.js";
-import { suggestedSize } from "./analysis.js";
+import { suggestedSize } from "../web/src/analysis.js";
 
 export async function simulate({
   tickers,

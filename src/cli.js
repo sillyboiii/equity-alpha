@@ -1,5 +1,5 @@
 import { Store } from "./store.js";
-import { researchTicker, refreshBenchmark } from "./research.js";
+import { researchTicker, refreshBenchmark } from "../web/src/research.js";
 import { screenTable } from "./report.js";
 import { backtestTicker, backtestSummary } from "./backtest.js";
 import { simulate, simSummary } from "./sim.js";

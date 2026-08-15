@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "discord.js";
-import { VERDICT_COLORS } from "./analysis.js";
+import { VERDICT_COLORS } from "../web/src/analysis.js";
 
 const fmt = (n, digits = 2) => (n == null || !Number.isFinite(n) ? "—" : n.toFixed(digits));
 const fmtPct = (v) => (v == null ? "—" : `${v >= 0 ? "+" : ""}${(v * 100).toFixed(1)}%`);

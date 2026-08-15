@@ -1,4 +1,4 @@
-import { MARKET, withRetry } from "./market.js";
+import { MARKET, withRetry } from "../web/src/market.js";
 import { EmbedBuilder } from "discord.js";
 
 const fmt = (n, digits = 2) => (n == null || !Number.isFinite(n) ? "—" : n.toFixed(digits));
