@@ -1,8 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import HowItWorks from "./HowItWorks";
+import MarketsStrip from "./MarketsStrip";
 import PriceChart from "./PriceChart";
 import Reveal from "./Reveal";
+import Screener from "./Screener";
 import TrackRecord from "./TrackRecord";
 import {
   ema,
@@ -149,7 +152,25 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<ResearchData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [recent, setRecent] = useState<{ symbol: string; verdict: string; ts: string }[]>([]);
   const resultRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("qntl:recent");
+      if (raw) setRecent(JSON.parse(raw));
+    } catch {}
+  }, []);
+
+  function remember(symbol: string, verdict: string) {
+    setRecent((prev) => {
+      const next = [{ symbol, verdict, ts: new Date().toISOString() }, ...prev.filter((r) => r.symbol !== symbol)].slice(0, 8);
+      try {
+        localStorage.setItem("qntl:recent", JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+  }
 
   async function run(sym: string) {
     const t = sym.trim().toUpperCase();
@@ -162,6 +183,7 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? "Research failed");
       setData(json);
+      remember(t, json.analysis?.verdict ?? "—");
       setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Research failed");
@@ -190,12 +212,8 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
     <div className="min-h-screen">
       <header className="sticky top-0 z-40 border-b border-hairline bg-paper/90 backdrop-blur">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-4">
-          <a href="#top" className="flex items-center gap-2.5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="QNTL" width={30} height={30} className="h-[30px] w-[30px]" />
-            <span className="font-display text-xl font-semibold tracking-tight text-ink">
-              QNTL<span className="italic text-ink-soft">.</span>
-            </span>
+          <a href="#top" className="font-display text-xl font-semibold tracking-tight text-ink">
+            QNTL<span className="italic text-ink-soft">.</span>
           </a>
           <nav className="flex items-center gap-6 text-sm text-ink-soft">
             <a href="#track" className="transition-colors hover:text-ink">Track record</a>
@@ -228,21 +246,7 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
               <span className="inline-block animate-hero-word" style={{ animationDelay: "210ms" }}>
                 a
               </span>{" "}
-              <span className="relative inline-block animate-knife-phrase font-normal text-ink-soft">
-                <svg
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  className="animate-knife-fall pointer-events-none absolute -left-7 -top-1 w-6 text-ink"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M12 2l3.2 6.4L12 12.4 8.8 8.4z" />
-                  <path d="M8.8 8.4h6.4" />
-                  <path d="M10.6 12.4h2.8l1.3 8.6h-5.4z" />
-                </svg>
+              <span className="inline-block animate-hero-word font-normal text-ink-soft" style={{ animationDelay: "280ms" }}>
                 falling knife.
               </span>
             </h1>
@@ -291,12 +295,35 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
             ))}
           </div>
 
+          {recent.length > 0 && (
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-sm">
+              <span className="text-ink-faint">Recent:</span>
+              {recent.map((r) => {
+                const vs = VERDICT_STYLE[r.verdict] ?? VERDICT_STYLE.HOLD;
+                return (
+                  <button
+                    key={r.symbol}
+                    onClick={() => run(r.symbol)}
+                    className="num rounded-full border border-hairline bg-panel px-3.5 py-1 text-xs font-medium text-ink-soft transition-colors hover:border-ink hover:text-ink"
+                  >
+                    {r.symbol}{" "}
+                    <span className={`font-semibold ${vs.text}`}>{r.verdict}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
           {error && (
             <p className="mx-auto mt-8 max-w-lg rounded-xl border border-bad/30 bg-bad/5 px-4 py-3 text-center text-sm text-bad">
               {error}
             </p>
           )}
         </section>
+
+        <MarketsStrip />
+
+        <Screener onResearch={run} />
 
         {a && data && (
           <section ref={resultRef} className="mx-auto w-full max-w-5xl px-5 pb-20 scroll-mt-20">
@@ -557,6 +584,8 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
             </div>
           </section>
         )}
+
+        <HowItWorks />
 
         <Reveal delay={120}>
           <TrackRecord track={initialTrack as never} />
