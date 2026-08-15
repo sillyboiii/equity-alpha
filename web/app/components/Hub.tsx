@@ -1,5 +1,7 @@
 "use client";
 
+import Logo from "./Logo";
+
 type EntryId = "research" | "board" | "method" | "track";
 
 const ENTRIES: { id: EntryId; title: string; body: string; tag: string }[] = [
@@ -32,19 +34,13 @@ const ENTRIES: { id: EntryId; title: string; body: string; tag: string }[] = [
 export default function Hub({ onEnter }: { onEnter: (tab: EntryId) => void }) {
   return (
     <>
-      <section className="mx-auto w-full max-w-5xl px-5 pt-20 pb-14 text-center">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/logo.png"
-          alt="QNTL"
-          width={160}
-          height={160}
-          className="animate-hero-logo mx-auto h-20 w-auto sm:h-28"
-        />
-        <p className="animate-hero-word text-[11px] font-semibold uppercase tracking-[0.25em] text-ink-faint" style={{ animationDelay: "150ms" }}>
-          Trend-first research, zero opinions
-        </p>
-        <h1 className="font-display mt-4 text-4xl font-semibold leading-[1.08] tracking-tight text-ink sm:text-6xl">
+      <section className="hero-grid mx-auto w-full max-w-5xl px-5 pt-20 pb-14 text-center">
+        <div className="relative">
+          <Logo className="animate-hero-logo mx-auto h-20 w-20 text-ink sm:h-28 sm:w-28" />
+          <p className="animate-hero-word text-[11px] font-semibold uppercase tracking-[0.25em] text-ink-faint" style={{ animationDelay: "150ms" }}>
+            Trend-first research, zero opinions
+          </p>
+        <h1 className="font-display relative mt-4 text-4xl font-semibold leading-[1.08] tracking-tight text-ink sm:text-6xl">
           <span className="inline-block animate-hero-word">We</span>{" "}
           <span className="inline-block animate-hero-word" style={{ animationDelay: "260ms" }}>
             never
@@ -59,11 +55,12 @@ export default function Hub({ onEnter }: { onEnter: (tab: EntryId) => void }) {
             falling knife.
           </span>
         </h1>
-        <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
+        <p className="relative mx-auto mt-5 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
           QNTL scores long-term trends against a valuation guardrail — it refuses to overpay, won&apos;t
           catch falling knives, and logs every call to a public ledger. No cherry-picking. No rose-tinted
           hindsight. Just the receipts.
         </p>
+        </div>
       </section>
 
       <section className="mx-auto w-full max-w-5xl px-5 pb-20">
