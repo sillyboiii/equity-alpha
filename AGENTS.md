@@ -89,7 +89,7 @@ The user's own trading tool, deliberately separate from the public research prod
 - [x] Standalone API exposing the research engine (`web/app/api/research/route.js` → `web/src/research.js`)
 - [x] Branded research UI (paper/ink monochrome per brand kit): search, verdict card, guards, suggested size, price chart w/ 50/200 EMA, indicators, fair value + bear/base/bull scenarios, peer comps
 - [x] Track-record dashboard (research + personal swing tabs) fed by `scripts/export-track.mjs` snapshot of the SQLite ledger (`npm run export-track` → `web/app/track.json`, bundled at build)
-- [x] Deployed on Vercel (project `equity-alpha`, root dir `web/`, GitHub integration auto-deploys main)
+- [x] Deployed on Vercel (project `equity-alpha`, root dir `web/`, GitHub integration auto-deploys main). LIVE: https://equity-alpha-sillyboiiis-projects.vercel.app — SSO protection disabled; custom domain later
 
 ### Phase 5 · More data + alerts
 - [ ] Price alerts (target hit / breakout / RSI extremes) posted to Discord
