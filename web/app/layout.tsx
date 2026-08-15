@@ -16,9 +16,9 @@ const brandSans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Equity Alpha — Research that respects the trend",
+  title: "QNTL — Research that respects the trend",
   description:
-    "Trend-first equity research. No falling knives, no pumping short squeezes, no paying premium for the trend — with a verifiable track record.",
+    "QNTL scores long-term trends against a valuation guardrail. We never buy a falling knife, never overpay, and log every call to a public ledger — no cherry-picking, just receipts.",
 };
 
 export default function RootLayout({

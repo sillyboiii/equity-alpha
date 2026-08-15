@@ -64,8 +64,8 @@ export default function TrackRecord({ track }: { track: { generatedAt: string; r
             Every call, scored.
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-ink-soft">
-            Every non-hold signal is logged with entry price and re-checked at the horizon exit. A public,
-            verifiable ledger — no cherry-picking.
+            Every non-hold signal is timestamped at entry and re-checked the moment the horizon runs out.
+            Public ledger, verifiable by anyone, built on zero cherry-picking.
           </p>
         </div>
         <div className="flex rounded-full border border-hairline bg-panel p-0.5 text-sm">
@@ -101,8 +101,8 @@ export default function TrackRecord({ track }: { track: { generatedAt: string; r
               No scored signals yet{scope === "personal" ? " — run <code>/trade</code> in Discord" : " — the next long-term signal will land here"}.
             </p>
             <p className="max-w-sm text-xs leading-relaxed text-ink-faint">
-              The ledger starts scoring the moment a non-hold signal reaches its exit date. Holds are logged
-              but never counted as calls.
+              Signals have to survive the full horizon before we&apos;ll grade them. Holds are filed, never
+              scored — you can&apos;t be right about nothing.
             </p>
           </div>
         ) : (

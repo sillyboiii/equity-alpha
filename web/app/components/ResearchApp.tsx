@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import PriceChart from "./PriceChart";
+import Reveal from "./Reveal";
 import TrackRecord from "./TrackRecord";
 import {
   ema,
@@ -74,7 +75,7 @@ function ScoreGauge({ score }: { score: number }) {
     <div>
       <div className="flex justify-between text-[10px] uppercase tracking-widest text-ink-faint">
         <span>-1</span>
-        <span className="font-semibold">Score</span>
+        <span className="font-semibold">Conviction</span>
         <span>+1</span>
       </div>
       <div className="relative mt-1.5 h-2 rounded-full bg-hairline-soft">
@@ -189,8 +190,12 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
     <div className="min-h-screen">
       <header className="sticky top-0 z-40 border-b border-hairline bg-paper/90 backdrop-blur">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-4">
-          <a href="#top" className="font-display text-xl font-semibold tracking-tight text-ink">
-            Equity<span className="italic text-ink-soft">Alpha</span>
+          <a href="#top" className="flex items-center gap-2.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="QNTL" width={30} height={30} className="h-[30px] w-[30px]" />
+            <span className="font-display text-xl font-semibold tracking-tight text-ink">
+              QNTL<span className="italic text-ink-soft">.</span>
+            </span>
           </a>
           <nav className="flex items-center gap-6 text-sm text-ink-soft">
             <a href="#track" className="transition-colors hover:text-ink">Track record</a>
@@ -210,15 +215,41 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
         <section className="mx-auto w-full max-w-5xl px-5 pt-20 pb-16">
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-ink-faint">
-              Trend-first equity research
+              Trend-first research, zero opinions
             </p>
             <h1 className="font-display mt-4 text-4xl font-semibold leading-[1.08] tracking-tight text-ink sm:text-6xl">
-              We never buy a{" "}
-              <em className="font-normal text-ink-soft">falling knife.</em>
+              <span className="inline-block animate-hero-word">We</span>{" "}
+              <span className="inline-block animate-hero-word" style={{ animationDelay: "70ms" }}>
+                never
+              </span>{" "}
+              <span className="inline-block animate-hero-word" style={{ animationDelay: "140ms" }}>
+                buy
+              </span>{" "}
+              <span className="inline-block animate-hero-word" style={{ animationDelay: "210ms" }}>
+                a
+              </span>{" "}
+              <span className="relative inline-block animate-knife-phrase font-normal text-ink-soft">
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  className="animate-knife-fall pointer-events-none absolute -left-7 -top-1 w-6 text-ink"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 2l3.2 6.4L12 12.4 8.8 8.4z" />
+                  <path d="M8.8 8.4h6.4" />
+                  <path d="M10.6 12.4h2.8l1.3 8.6h-5.4z" />
+                </svg>
+                falling knife.
+              </span>
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
-              Equity Alpha scores long-term trends with a valuation guardrail — it refuses to overpay,
-              won&apos;t catch falling knives, and logs every call to a verifiable track record.
+              QNTL scores long-term trends against a valuation guardrail — it refuses to overpay, won&apos;t
+              catch falling knives, and logs every call to a public ledger. No cherry-picking. No rose-tinted
+              hindsight. Just the receipts.
             </p>
           </div>
 
@@ -232,7 +263,7 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
             <input
               value={ticker}
               onChange={(e) => setTicker(e.target.value)}
-              placeholder="Ticker — try NVDA"
+              placeholder="Drop a ticker. We'll be honest."
               autoCapitalize="characters"
               autoCorrect="off"
               spellCheck={false}
@@ -243,7 +274,7 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
               disabled={loading}
               className="h-14 rounded-xl bg-ink px-7 text-sm font-semibold text-paper transition-opacity hover:opacity-85 disabled:opacity-50"
             >
-              {loading ? "Researching…" : "Research"}
+              {loading ? "Sharpening the knife…" : "Research"}
             </button>
           </form>
 
@@ -269,7 +300,8 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
 
         {a && data && (
           <section ref={resultRef} className="mx-auto w-full max-w-5xl px-5 pb-20 scroll-mt-20">
-            <div className="animate-fade-up overflow-hidden rounded-2xl border border-hairline bg-panel">
+            <Reveal>
+              <div className="animate-fade-up overflow-hidden rounded-2xl border border-hairline bg-panel">
               <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_auto]">
                 <div>
                   <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -333,8 +365,10 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
                 </div>
               )}
             </div>
+            </Reveal>
 
-            <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
+            <Reveal delay={80}>
+              <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
               <div className="rounded-2xl border border-hairline bg-panel p-6 sm:p-7">
                 <div className="mb-4 flex items-center justify-between">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">
@@ -350,7 +384,7 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
               </div>
 
               <div className="rounded-2xl border border-hairline bg-panel p-6 sm:p-7">
-                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">Indicators</p>
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">Vitals</p>
                 <div>
                   <IndRow
                     label="RSI (14)"
@@ -390,10 +424,12 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
                   <IndRow label="Strategy" value={a.strategy.name} />
                 </div>
               </div>
-            </div>
+              </div>
+            </Reveal>
 
             {fair && fair.blended != null && (
-              <div className="mt-6 rounded-2xl border border-hairline bg-panel p-6 sm:p-7">
+              <Reveal delay={120}>
+                <div className="mt-6 rounded-2xl border border-hairline bg-panel p-6 sm:p-7">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">Fair value</p>
                   <span className={`num text-sm font-semibold ${
@@ -425,10 +461,12 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
                   <span className="num">{fmtPrice(fair.price)} (price)</span>
                   <span className="num">{fmtPrice(fair.blended)} (fair value)</span>
                 </div>
-              </div>
+                </div>
+              </Reveal>
             )}
 
             {scenarios && (
+              <Reveal delay={160}>
               <div className="mt-6 grid gap-4 sm:grid-cols-3">
                 {(["bear", "base", "bull"] as const).map((k) => {
                   const label = k === "bear" ? "Bear" : k === "base" ? "Base" : "Bull";
@@ -445,14 +483,18 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
                   );
                 })}
               </div>
+              </Reveal>
             )}
 
-            <div className="mt-6 rounded-2xl border border-hairline bg-panel p-6 sm:p-7">
-              <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">Signal components</p>
+            <Reveal delay={200}>
+              <div className="mt-6 rounded-2xl border border-hairline bg-panel p-6 sm:p-7">
+                <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">What&apos;s driving the call</p>
               <ComponentBars components={a.components} />
-            </div>
+              </div>
+            </Reveal>
 
             {comps && comps.metrics.length > 0 && (
+              <Reveal delay={240}>
               <div className="mt-6 rounded-2xl border border-hairline bg-panel p-6 sm:p-7">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">Peer comparison</p>
@@ -488,11 +530,13 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
                   vs {comps.peerCount} sector peers (market-cap band ±8×).
                 </p>
               </div>
+              </Reveal>
             )}
 
             {a.reasoning.length > 0 && (
+              <Reveal delay={280}>
               <div className="mt-6 rounded-2xl border border-hairline bg-panel p-6 sm:p-7">
-                <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">Why</p>
+                <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">The receipts</p>
                 <ul className="grid gap-2.5 text-sm leading-relaxed text-ink-soft sm:grid-cols-2">
                   {a.reasoning.map((r, i) => (
                     <li key={i} className="flex gap-2">
@@ -502,28 +546,32 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
                   ))}
                 </ul>
               </div>
+              </Reveal>
             )}
 
             <div className="mt-6 rounded-2xl border border-hairline-soft bg-paper px-6 py-4 text-[11px] leading-relaxed text-ink-faint">
               <span className="font-semibold uppercase tracking-widest text-ink-soft">Method</span>{" "}
-              — weighted composite of trend, momentum, volatility, volume, value and quality (−1…+1),
-              guarded by your trend rules. Long-term research only; informational, not financial advice.
+              — six signals (trend, momentum, volatility, volume, value, quality) weighed into one conviction
+              score (−1…+1), then put on a leash: the trend rules are law. Long-term research only, informational —
+              not financial advice, and definitely not a vibes check.
             </div>
           </section>
         )}
 
-        <TrackRecord track={initialTrack as never} />
+        <Reveal delay={120}>
+          <TrackRecord track={initialTrack as never} />
+        </Reveal>
       </main>
 
       <footer className="border-t border-hairline">
         <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-8 text-xs text-ink-faint">
           <span>
-            <span className="font-display text-sm font-semibold text-ink">EquityAlpha</span> — trend-first research
+            <span className="font-display text-sm font-semibold text-ink">QNTL</span> — the trend is your friend. The knife is not.
           </span>
           <span className="num">
             {data ? `${data.symbol} · ${fmtPrice(a!.indicators.price)} · ${a!.verdict}` : "No active signal"}
           </span>
-          <span>Signals are informational, not financial advice.</span>
+          <span>Informational, not financial advice. Check your own knives.</span>
         </div>
       </footer>
     </div>
