@@ -22,16 +22,15 @@ function simulate(symbol, bars) {
   const trades = [];
   let holding = false;
   let entryIdx = -1;
-  let entryClose = 0;
+  let carry = 1;
   for (let i = 0; i < n; i++) {
     const c = closes[i];
     const trend = e50[i] != null && e200[i] != null && c > e50[i] && e50[i] > e200[i];
     if (trend && !holding) {
       holding = true;
       entryIdx = i;
-      entryClose = c;
-    } else if (!trend && holding) {
-      const ret = c / entryClose - 1;
+    } else if (holding && e200[i] != null && c < e200[i]) {
+      const ret = c / closes[entryIdx] - 1;
       trades.push({
         symbol,
         entry: dates[entryIdx],
@@ -41,9 +40,10 @@ function simulate(symbol, bars) {
         open: false,
         holdingDays: Math.max(0, Math.round((new Date(dates[i]) - new Date(dates[entryIdx])) / 86400000)),
       });
+      carry *= 1 + ret;
       holding = false;
     }
-    equity[i] = holding ? c / entryClose : 1;
+    equity[i] = holding ? carry * (c / closes[entryIdx]) : carry;
     active[i] = holding;
   }
   if (holding) {
@@ -51,7 +51,7 @@ function simulate(symbol, bars) {
       symbol,
       entry: dates[entryIdx],
       exit: null,
-      ret: closes[n - 1] / entryClose - 1,
+      ret: closes[n - 1] / closes[entryIdx] - 1,
       open: true,
       holdingDays: Math.max(0, Math.round((new Date(dates[n - 1]) - new Date(dates[entryIdx])) / 86400000)),
     });

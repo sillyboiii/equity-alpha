@@ -90,9 +90,10 @@ export default function BacktestPanel() {
             Did the rules actually make money?
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-ink-soft">
-            The engine&apos;s exact trend rules (price above the 50-day EMA, 50 above the 200) replayed over
-            {` ${data ? data.period.years : years}`} years of history. Equal weight, one decision a day, no
-            hindsight. Strategy against buying and holding, and against the S&amp;P 500 itself.
+            The engine&apos;s exact trend rules replayed over {` ${data ? data.period.years : years}`} years of
+            history: buy when price holds above the 50-day and 200-day EMAs (a live uptrend), then ride it
+            until price closes back below the 200-day. Equal weight, one decision a day, no hindsight.
+            Strategy against buying and holding, and against the S&amp;P 500 itself.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
