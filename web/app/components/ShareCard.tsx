@@ -104,54 +104,56 @@ export async function makeShareCard(props: CardProps): Promise<Blob> {
   const bw = ctx.measureText(props.verdict).width + 64;
   ctx.fillStyle = bg;
   ctx.beginPath();
-  ctx.roundRect(W - 64 - bw, 148, bw, 84, 42);
+  ctx.roundRect(W - 64 - bw, 140, bw, 84, 42);
   ctx.fill();
   ctx.fillStyle = color;
   ctx.textAlign = "center";
-  ctx.fillText(props.verdict, W - 64 - bw / 2, 190);
+  ctx.fillText(props.verdict, W - 64 - bw / 2, 182);
 
-  ctx.font = `600 26px ${sans}`;
+  ctx.font = `600 24px ${sans}`;
   ctx.fillStyle = SOFT;
-  ctx.fillText("conviction", W - 64 - bw / 2, 252);
-  ctx.font = `700 34px ${sans}`;
+  ctx.fillText("conviction", W - 64 - bw / 2, 244);
+  ctx.font = `700 32px ${sans}`;
   ctx.fillStyle = color;
-  ctx.fillText(`${props.score >= 0 ? "+" : ""}${props.score.toFixed(2)}`, W - 64 - bw / 2, 292);
+  ctx.fillText(`${props.score >= 0 ? "+" : ""}${props.score.toFixed(2)}`, W - 64 - bw / 2, 284);
 
   // ticker (left)
   ctx.textAlign = "left";
   ctx.fillStyle = INK;
-  ctx.font = `700 132px ${sans}`;
-  ctx.fillText(props.symbol, 64, 238);
+  ctx.font = `700 120px ${sans}`;
+  ctx.fillText(props.symbol, 64, 222);
 
-  ctx.font = `500 34px ${sans}`;
+  ctx.font = `500 30px ${sans}`;
   ctx.fillStyle = SOFT;
-  ctx.fillText(props.name ?? "", 64, 296);
+  ctx.fillText(props.name ?? "", 64, 276);
 
-  // price
-  ctx.font = `700 60px ${sans}`;
+  // price + day change
+  ctx.font = `700 54px ${sans}`;
   ctx.fillStyle = INK;
-  ctx.fillText(
-    props.price != null ? (props.price >= 100 ? props.price.toFixed(0) : props.price.toFixed(2)) : "·",
-    64,
-    376,
-  );
+  ctx.fillText(props.price != null ? (props.price >= 100 ? props.price.toFixed(0) : props.price.toFixed(2)) : "·", 64, 342);
   if (props.dayChangePct != null) {
     const up = props.dayChangePct >= 0;
     ctx.fillStyle = up ? GOOD : BAD;
-    ctx.font = `600 40px ${sans}`;
-    ctx.fillText(`${up ? "+" : ""}${props.dayChangePct.toFixed(2)}%`, 64, 376 + 52);
+    ctx.font = `600 34px ${sans}`;
+    ctx.fillText(`${up ? "+" : ""}${props.dayChangePct.toFixed(2)}%`, 64, 388);
   }
 
   // thesis
-  ctx.font = `400 30px ${sans}`;
-  ctx.fillStyle = INK;
-  const lines = wrap(ctx, props.thesis || "", W - 128 - (W - 64 - bw - 64), 3);
-  let ty = 452;
+  ctx.font = `400 27px ${sans}`;
   ctx.fillStyle = SOFT;
+  const lines = wrap(ctx, props.thesis || "", W - 128, 2);
+  let ty = 440;
   for (const l of lines) {
     ctx.fillText(l, 64, ty);
-    ty += 44;
+    ty += 42;
   }
+
+  // divider
+  ctx.strokeStyle = "rgba(28,27,24,0.12)";
+  ctx.beginPath();
+  ctx.moveTo(64, 522);
+  ctx.lineTo(W - 64, 522);
+  ctx.stroke();
 
   // bottom guards
   ctx.font = `500 24px ${sans}`;
