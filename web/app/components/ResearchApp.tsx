@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import CountUp from "./CountUp";
 import HowItWorks from "./HowItWorks";
 import Hub from "./Hub";
 import Logo from "./Logo";
@@ -91,9 +92,8 @@ function ScoreGauge({ score }: { score: number }) {
           style={{ left: `${pct}%` }}
         />
       </div>
-      <p className={`num mt-1.5 text-center text-sm font-semibold ${text}`}>
-        {score >= 0 ? "+" : ""}
-        {score.toFixed(2)}
+      <p className={`mt-1.5 text-center text-sm font-semibold ${text}`}>
+        <CountUp value={score} className={text} />
       </p>
     </div>
   );
@@ -246,8 +246,8 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
               <button
                 key={t.id}
                 onClick={() => go(t.id)}
-                className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
-                  tab === t.id ? "bg-ink text-paper" : "text-ink-soft hover:bg-panel hover:text-ink"
+                className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all ${
+                  tab === t.id ? "bg-good text-paper" : "text-ink-soft hover:bg-panel hover:text-ink"
                 }`}
               >
                 {t.label}
@@ -308,7 +308,7 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
             <button
               type="submit"
               disabled={loading}
-              className="h-14 rounded-xl bg-ink px-7 text-sm font-semibold text-paper transition-opacity hover:opacity-85 disabled:opacity-50"
+              className="h-14 rounded-xl bg-good px-7 text-sm font-semibold text-paper transition-opacity hover:opacity-90 disabled:opacity-50"
             >
               {loading ? "Sharpening the knife…" : "Research"}
             </button>

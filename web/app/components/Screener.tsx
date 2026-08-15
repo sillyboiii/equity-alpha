@@ -84,7 +84,7 @@ export default function Screener({ onResearch }: { onResearch: (symbol: string) 
               setCustom("");
             }}
             className={`rounded-full border px-4 py-1.5 text-xs font-semibold transition-colors ${
-              universe === u ? "border-ink bg-ink text-paper" : "border-hairline bg-panel text-ink-soft hover:border-ink hover:text-ink"
+              universe === u ? "border-good bg-good text-paper" : "border-hairline bg-panel text-ink-soft hover:border-ink hover:text-ink"
             }`}
           >
             {u}
@@ -96,7 +96,7 @@ export default function Screener({ onResearch }: { onResearch: (symbol: string) 
             setRows(null);
           }}
           className={`rounded-full border px-4 py-1.5 text-xs font-semibold transition-colors ${
-            universe === null ? "border-ink bg-ink text-paper" : "border-hairline bg-panel text-ink-soft hover:border-ink hover:text-ink"
+            universe === null ? "border-good bg-good text-paper" : "border-hairline bg-panel text-ink-soft hover:border-ink hover:text-ink"
           }`}
         >
           Custom
@@ -111,7 +111,7 @@ export default function Screener({ onResearch }: { onResearch: (symbol: string) 
         <button
           onClick={scan}
           disabled={loading}
-          className="h-9 rounded-xl bg-ink px-5 text-xs font-semibold text-paper transition-opacity hover:opacity-85 disabled:opacity-50"
+          className="h-9 rounded-xl bg-good px-5 text-xs font-semibold text-paper transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {loading ? "Scanning…" : "Scan"}
         </button>
