@@ -1,0 +1,57 @@
+{
+  "generatedAt": "2026-08-15T11:49:10.119Z",
+  "research": {
+    "horizonDays": 30,
+    "totalSignals": 8,
+    "scoredSignals": 0,
+    "tradeCount": 0,
+    "incomplete": 5,
+    "wins": 0,
+    "losses": 0,
+    "longWins": 0,
+    "longCount": 0,
+    "shortWins": 0,
+    "shortCount": 0,
+    "winRate": null,
+    "avgReturn": null,
+    "spxScored": 0,
+    "spxAvgReturn": null,
+    "netAlpha": null,
+    "beatMarket": 0,
+    "byMonth": [],
+    "byQuarter": [],
+    "maxDrawdown": 0,
+    "avgHoldingDays": {
+      "long": null,
+      "short": null
+    },
+    "scored": []
+  },
+  "personal": {
+    "horizonDays": 7,
+    "totalSignals": 0,
+    "scoredSignals": 0,
+    "tradeCount": 0,
+    "incomplete": 0,
+    "wins": 0,
+    "losses": 0,
+    "longWins": 0,
+    "longCount": 0,
+    "shortWins": 0,
+    "shortCount": 0,
+    "winRate": null,
+    "avgReturn": null,
+    "spxScored": 0,
+    "spxAvgReturn": null,
+    "netAlpha": null,
+    "beatMarket": 0,
+    "byMonth": [],
+    "byQuarter": [],
+    "maxDrawdown": 0,
+    "avgHoldingDays": {
+      "long": null,
+      "short": null
+    },
+    "scored": []
+  }
+}
