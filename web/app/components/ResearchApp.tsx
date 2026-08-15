@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import HowItWorks from "./HowItWorks";
+import Hub from "./Hub";
 import MarketsStrip from "./MarketsStrip";
 import PriceChart from "./PriceChart";
 import Reveal from "./Reveal";
 import Screener from "./Screener";
+import ThemeToggle from "./ThemeToggle";
 import TrackRecord from "./TrackRecord";
 import {
   ema,
@@ -147,13 +149,27 @@ function FairValueBar({ price, blended }: { price: number; blended: number }) {
   );
 }
 
+type Tab = "hub" | "research" | "board" | "method" | "track";
+const TABS: { id: Tab; label: string }[] = [
+  { id: "research", label: "Research" },
+  { id: "board", label: "Board" },
+  { id: "method", label: "Method" },
+  { id: "track", label: "Track record" },
+];
+
 export default function ResearchApp({ initialTrack }: { initialTrack: unknown }) {
+  const [tab, setTab] = useState<Tab>("hub");
   const [ticker, setTicker] = useState("");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<ResearchData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [recent, setRecent] = useState<{ symbol: string; verdict: string; ts: string }[]>([]);
   const resultRef = useRef<HTMLDivElement>(null);
+
+  function go(t: Tab) {
+    setTab(t);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
   useEffect(() => {
     try {
@@ -175,6 +191,7 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
   async function run(sym: string) {
     const t = sym.trim().toUpperCase();
     if (!t) return;
+    setTab("research");
     setTicker(t);
     setLoading(true);
     setError(null);
@@ -211,58 +228,69 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-40 border-b border-hairline bg-paper/90 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-4">
-          <a href="#top" className="flex items-center gap-2">
+        <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 px-5 py-3">
+          <button
+            onClick={() => go("hub")}
+            className="flex shrink-0 items-center gap-2 transition-opacity hover:opacity-80"
+            aria-label="Back to hub"
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="QNTL" height={26} className="h-[26px] w-auto" />
-            <span className="font-display text-xl font-semibold tracking-tight text-ink">
+            <img src="/logo.png" alt="QNTL" height={32} className="h-8 w-auto" />
+            <span className="font-display text-lg font-semibold tracking-tight text-ink">
               QNTL<span className="italic text-ink-soft">.</span>
             </span>
-          </a>
-          <nav className="flex items-center gap-6 text-sm text-ink-soft">
-            <a href="#track" className="transition-colors hover:text-ink">Track record</a>
+          </button>
+
+          <nav className="flex min-w-0 items-center gap-1 overflow-x-auto text-sm">
+            {TABS.map((t) => (
+              <button
+                key={t.id}
+                onClick={() => go(t.id)}
+                className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
+                  tab === t.id ? "bg-ink text-paper" : "text-ink-soft hover:bg-panel hover:text-ink"
+                }`}
+              >
+                {t.label}
+              </button>
+            ))}
+          </nav>
+
+          <div className="flex shrink-0 items-center gap-2">
+            <ThemeToggle />
             <a
               href="https://github.com/sillyboiii/equity-alpha"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-hairline px-4 py-1.5 transition-colors hover:border-ink hover:text-ink"
+              className="rounded-full border border-hairline px-3.5 py-1.5 text-xs font-semibold text-ink-soft transition-colors hover:border-ink hover:text-ink"
             >
               GitHub
             </a>
-          </nav>
+          </div>
         </div>
       </header>
 
       <main id="top">
-        <section className="mx-auto w-full max-w-5xl px-5 pt-20 pb-16">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-ink-faint">
-              Trend-first research, zero opinions
-            </p>
-            <h1 className="font-display mt-4 text-4xl font-semibold leading-[1.08] tracking-tight text-ink sm:text-6xl">
-              <span className="inline-block animate-hero-word">We</span>{" "}
-              <span className="inline-block animate-hero-word" style={{ animationDelay: "70ms" }}>
-                never
-              </span>{" "}
-              <span className="inline-block animate-hero-word" style={{ animationDelay: "140ms" }}>
-                buy
-              </span>{" "}
-              <span className="inline-block animate-hero-word" style={{ animationDelay: "210ms" }}>
-                a
-              </span>{" "}
-              <span className="inline-block animate-hero-word font-normal text-ink-soft" style={{ animationDelay: "280ms" }}>
-                falling knife.
-              </span>
-            </h1>
-            <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
-              QNTL scores long-term trends against a valuation guardrail — it refuses to overpay, won&apos;t
-              catch falling knives, and logs every call to a public ledger. No cherry-picking. No rose-tinted
-              hindsight. Just the receipts.
-            </p>
+        {tab === "hub" && (
+          <div key="hub" className="animate-tab-in">
+            <Hub onEnter={go} />
+            <MarketsStrip />
           </div>
+        )}
 
-          <form
-            className="mx-auto mt-10 flex max-w-xl items-center gap-2"
+        {tab === "research" && (
+          <div key="research" className="animate-tab-in">
+            <section className="mx-auto w-full max-w-5xl px-5 pt-14 pb-10">
+              <div className="mx-auto max-w-2xl text-center">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-ink-faint">
+                  Deep-dive research
+                </p>
+                <h2 className="font-display mt-2 text-3xl font-semibold text-ink sm:text-4xl">
+                  Score a ticker, get the receipts.
+                </h2>
+              </div>
+
+              <form
+                className="mx-auto mt-8 flex max-w-xl items-center gap-2"
             onSubmit={(e) => {
               e.preventDefault();
               run(ticker);
@@ -323,14 +351,10 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
               {error}
             </p>
           )}
-        </section>
+            </section>
 
-        <MarketsStrip />
-
-        <Screener onResearch={run} />
-
-        {a && data && (
-          <section ref={resultRef} className="mx-auto w-full max-w-5xl px-5 pb-20 scroll-mt-20">
+            {a && data && (
+              <section ref={resultRef} className="mx-auto w-full max-w-5xl px-5 pb-20 scroll-mt-20">
             <Reveal>
               <div className="animate-fade-up overflow-hidden rounded-2xl border border-hairline bg-panel">
               <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_auto]">
@@ -586,24 +610,45 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
               score (−1…+1), then put on a leash: the trend rules are law. Long-term research only, informational —
               not financial advice, and definitely not a vibes check.
             </div>
-          </section>
+              </section>
+            )}
+          </div>
         )}
 
-        <HowItWorks />
+        {tab === "board" && (
+          <div key="board" className="animate-tab-in">
+            <Screener onResearch={(s) => { go("research"); run(s); }} />
+          </div>
+        )}
 
-        <Reveal delay={120}>
-          <TrackRecord track={initialTrack as never} />
-        </Reveal>
+        {tab === "method" && (
+          <div key="method" className="animate-tab-in">
+            <HowItWorks />
+          </div>
+        )}
+
+        {tab === "track" && (
+          <div key="track" className="animate-tab-in">
+            <Reveal delay={120}>
+              <TrackRecord track={initialTrack as never} />
+            </Reveal>
+          </div>
+        )}
       </main>
 
       <footer className="border-t border-hairline">
-        <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-8 text-xs text-ink-faint">
+        <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-4 px-5 py-8 text-xs text-ink-faint">
           <span>
             <span className="font-display text-sm font-semibold text-ink">QNTL</span> — the trend is your friend. The knife is not.
           </span>
-          <span className="num">
-            {data ? `${data.symbol} · ${fmtPrice(a!.indicators.price)} · ${a!.verdict}` : "No active signal"}
-          </span>
+          <div className="flex items-center gap-4">
+            {TABS.map((t) => (
+              <button key={t.id} onClick={() => go(t.id)} className="transition-colors hover:text-ink">
+                {t.label}
+              </button>
+            ))}
+            <ThemeToggle />
+          </div>
           <span>Informational, not financial advice. Check your own knives.</span>
         </div>
       </footer>

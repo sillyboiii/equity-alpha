@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --paper: #f4f1e9;
   --paper-deep: #ece7db;
@@ -14,6 +16,22 @@
   --red: #b5533f;
   --red-deep: #8c2f26;
   --amber: #a06a18;
+}
+
+.dark {
+  --paper: #0f0e0c;
+  --paper-deep: #0a0a08;
+  --panel: #171512;
+  --ink: #f2efe6;
+  --ink-soft: #a8a293;
+  --ink-faint: #6b6659;
+  --hairline: rgba(242, 239, 230, 0.14);
+  --hairline-soft: rgba(242, 239, 230, 0.08);
+  --green: #4fbf8f;
+  --green-bright: #63d3a3;
+  --red: #e3765f;
+  --red-deep: #c0523f;
+  --amber: #d9a35e;
 }
 
 @theme inline {
@@ -37,9 +55,9 @@
 @theme {
   --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-pulse-dot: pulse-dot 1.6s ease-in-out infinite;
-  --animate-hero-word: hero-word 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
-  --animate-knife-phrase: knife-phrase 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
-  --animate-knife-fall: knife-fall 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 1.15s both;
+  --animate-hero-word: hero-word 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-hero-logo: hero-logo 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-tab-in: tab-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-scan: scan 2.2s ease-in-out infinite;
 
   @keyframes fade-up {
@@ -66,7 +84,7 @@
   @keyframes hero-word {
     from {
       opacity: 0;
-      transform: translateY(16px);
+      transform: translateY(22px);
     }
     to {
       opacity: 1;
@@ -74,36 +92,25 @@
     }
   }
 
-  @keyframes knife-phrase {
-    0% {
+  @keyframes hero-logo {
+    from {
       opacity: 0;
-      transform: translateY(-30px) rotate(-2deg);
+      transform: translateY(-16px) scale(0.96);
     }
-    55% {
+    to {
       opacity: 1;
-      transform: translateY(4px) rotate(0.4deg);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) rotate(0);
+      transform: translateY(0) scale(1);
     }
   }
 
-  @keyframes knife-fall {
-    0% {
+  @keyframes tab-in {
+    from {
       opacity: 0;
-      transform: translateY(-120px) rotate(24deg);
+      transform: translateY(14px);
     }
-    50% {
+    to {
       opacity: 1;
-      transform: translateY(6px) rotate(0);
-    }
-    70% {
-      transform: translateY(-3px) rotate(-1deg);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) rotate(0);
+      transform: translateY(0);
     }
   }
 
@@ -159,6 +166,14 @@ body {
   font-family: var(--font-brand-sans), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--paper);
 }
 
 .font-display {
@@ -168,9 +183,4 @@ body {
 
 .num {
   font-variant-numeric: tabular-nums;
-}
-
-::selection {
-  background: var(--ink);
-  color: var(--paper);
 }
