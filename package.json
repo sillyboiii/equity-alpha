@@ -1,0 +1,30 @@
+{
+  "name": "equity-alpha",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Discord bot that runs equity research on your watchlist and logs a verifiable track record of every signal",
+  "main": "src/bot.js",
+  "scripts": {
+    "start": "node src/control.js start",
+    "stop": "node src/control.js stop",
+    "restart": "node src/control.js restart",
+    "status": "node src/control.js status",
+    "logs": "node src/control.js logs",
+    "scan": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env src/cli.js scan",
+    "analyze": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env src/cli.js analyze",
+    "screen": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env src/cli.js screen",
+    "backtest": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env src/cli.js backtest",
+    "performance": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env src/cli.js performance",
+    "test": "node --test --disable-warning=ExperimentalWarning",
+    "sim": "node src/cli.js sim",
+    "deepdive": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env src/cli.js deepdive"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "dependencies": {
+    "discord.js": "^14.27.0",
+    "yahoo-finance2": "^4.0.2"
+  }
+}
