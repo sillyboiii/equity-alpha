@@ -25,11 +25,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`dark ${brandSerif.variable} ${brandSans.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${brandSerif.variable} ${brandSans.variable}`} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{if(localStorage.getItem("qntl:theme")==="light"){document.documentElement.classList.remove("dark")}}catch(e){}`,
+            __html: `try{if(localStorage.getItem("qntl:theme")==="dark"){document.documentElement.classList.add("dark")}}catch(e){}`,
           }}
         />
       </head>

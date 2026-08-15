@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import CountUp from "./CountUp";
 import HowItWorks from "./HowItWorks";
 import Hub from "./Hub";
-import Logo from "./Logo";
 import MarketsStrip from "./MarketsStrip";
 import PriceChart from "./PriceChart";
 import Reveal from "./Reveal";
@@ -235,7 +234,8 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
             className="flex shrink-0 items-center gap-2 transition-opacity hover:opacity-80"
             aria-label="Back to hub"
           >
-            <Logo className="h-8 w-8 text-ink" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="QNTL" height={32} className="h-8 w-auto" />
             <span className="font-display text-lg font-semibold tracking-tight text-ink">
               QNTL<span className="italic text-ink-soft">.</span>
             </span>
@@ -246,8 +246,8 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
               <button
                 key={t.id}
                 onClick={() => go(t.id)}
-                className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all ${
-                  tab === t.id ? "bg-good text-paper" : "text-ink-soft hover:bg-panel hover:text-ink"
+                className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
+                  tab === t.id ? "bg-ink text-paper" : "text-ink-soft hover:bg-panel hover:text-ink"
                 }`}
               >
                 {t.label}
@@ -308,7 +308,7 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
             <button
               type="submit"
               disabled={loading}
-              className="h-14 rounded-xl bg-good px-7 text-sm font-semibold text-paper transition-opacity hover:opacity-90 disabled:opacity-50"
+              className="h-14 rounded-xl bg-ink px-7 text-sm font-semibold text-paper transition-opacity hover:opacity-85 disabled:opacity-50"
             >
               {loading ? "Sharpening the knife…" : "Research"}
             </button>
@@ -639,7 +639,8 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
       <footer className="border-t border-hairline">
         <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-4 px-5 py-8 text-xs text-ink-faint">
           <span className="flex items-center gap-2">
-            <Logo className="h-6 w-6 text-ink" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="QNTL" height={22} className="h-[22px] w-auto" />
             <span className="font-display text-sm font-semibold text-ink">QNTL</span>
             <span>— the trend is your friend. The knife is not.</span>
           </span>

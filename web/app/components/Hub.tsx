@@ -1,7 +1,5 @@
 "use client";
 
-import Logo from "./Logo";
-
 type EntryId = "research" | "board" | "method" | "track";
 
 const ENTRIES: { id: EntryId; title: string; body: string; tag: string }[] = [
@@ -36,7 +34,14 @@ export default function Hub({ onEnter }: { onEnter: (tab: EntryId) => void }) {
     <>
       <section className="hero-grid mx-auto w-full max-w-5xl px-5 pt-20 pb-14 text-center">
         <div className="relative">
-          <Logo className="animate-hero-logo mx-auto h-20 w-20 text-ink sm:h-28 sm:w-28" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo.png"
+            alt="QNTL"
+            width={160}
+            height={160}
+            className="animate-hero-logo mx-auto h-24 w-auto sm:h-32"
+          />
           <p className="animate-hero-word text-[11px] font-semibold uppercase tracking-[0.25em] text-ink-faint" style={{ animationDelay: "150ms" }}>
             Trend-first research, zero opinions
           </p>

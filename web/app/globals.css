@@ -19,19 +19,19 @@
 }
 
 .dark {
-  --paper: #0b0b0c;
-  --paper-deep: #050506;
-  --panel: #131315;
-  --ink: #f5f5f7;
-  --ink-soft: #9a9aa2;
-  --ink-faint: #5f5f68;
-  --hairline: rgba(245, 245, 247, 0.13);
-  --hairline-soft: rgba(245, 245, 247, 0.07);
-  --green: #2fd67a;
-  --green-bright: #43e38c;
-  --red: #ff5c4d;
-  --red-deep: #e0453a;
-  --amber: #f5a623;
+  --paper: #0f0e0c;
+  --paper-deep: #0a0a08;
+  --panel: #171512;
+  --ink: #f2efe6;
+  --ink-soft: #a8a293;
+  --ink-faint: #6b6659;
+  --hairline: rgba(242, 239, 230, 0.14);
+  --hairline-soft: rgba(242, 239, 230, 0.08);
+  --green: #4fbf8f;
+  --green-bright: #63d3a3;
+  --red: #e3765f;
+  --red-deep: #c0523f;
+  --amber: #d9a35e;
 }
 
 @theme inline {
