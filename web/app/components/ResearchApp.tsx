@@ -4,14 +4,18 @@ import { useEffect, useRef, useState } from "react";
 import CountUp from "./CountUp";
 import HowItWorks from "./HowItWorks";
 import Hub from "./Hub";
+import Leaderboard from "./Leaderboard";
 import MarketsStrip from "./MarketsStrip";
 import NewsStrip from "./NewsStrip";
+import PaperPortfolio from "./PaperPortfolio";
 import PriceChart from "./PriceChart";
 import Reveal from "./Reveal";
 import Screener from "./Screener";
+import ShareButton from "./ShareCard";
 import ThemeToggle from "./ThemeToggle";
 import TrackRecord from "./TrackRecord";
 import Watchlist from "./Watchlist";
+import WeeklyLetter from "./WeeklyLetter";
 import { useWatchlist } from "./watchlistStore";
 import {
   ema,
@@ -279,6 +283,9 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
             <MarketsStrip />
             <Hub onEnter={go} />
             <Watchlist onResearch={(s: string) => run(s)} />
+            <Leaderboard track={initialTrack} />
+            <PaperPortfolio />
+            <WeeklyLetter scoredCount={(initialTrack as { research?: { scoredSignals?: number } } | null)?.research?.scoredSignals ?? 0} />
             <NewsStrip />
           </div>
         )}
@@ -432,6 +439,23 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
                         </>
                       )}
                     </button>
+                  </div>
+                  <div className="mt-2">
+                    <ShareButton
+                      card={{
+                        symbol: data.symbol,
+                        name: data.name,
+                        price: a.indicators.price,
+                        dayChangePct: dayChange,
+                        verdict: a.verdict,
+                        score: a.score,
+                        thesis: a.thesis,
+                        guards: guardChips.slice(0, 3),
+                        suggestedSize: a.suggestedSize > 0 ? a.suggestedSize : null,
+                        exchange: quote?.exchange,
+                        currency: quote?.currency,
+                      }}
+                    />
                   </div>
                 </div>
               </div>

@@ -1,15 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fmtPrice, VERDICT_STYLE } from "./format";
+import { fmtPct, fmtPrice } from "./format";
 import { useWatchlist } from "./watchlistStore";
 
 type Row = {
   symbol: string;
   name: string;
   price: number | null;
-  score: number;
-  verdict: string;
+  changePct: number | null;
 };
 
 export default function Watchlist({ onResearch }: { onResearch: (symbol: string) => void }) {
@@ -24,20 +23,14 @@ export default function Watchlist({ onResearch }: { onResearch: (symbol: string)
     }
     let alive = true;
     setLoading(true);
-    fetch(`/api/screener?tickers=${encodeURIComponent(list.slice(0, 12).join(","))}`)
+    fetch(`/api/quote?tickers=${encodeURIComponent(list.slice(0, 12).join(","))}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (alive && d?.rows?.length) {
           setRows(
             d.rows
-              .filter((r: Row) => !(r as Row & { error?: string }).error)
-              .map((r: Row) => ({
-                symbol: r.symbol,
-                name: r.name,
-                price: r.price,
-                score: r.score,
-                verdict: r.verdict,
-              })),
+              .filter((r: Row & { error?: string }) => !r.error)
+              .map((r: Row) => ({ symbol: r.symbol, name: r.name, price: r.price, changePct: r.changePct })),
           );
         }
       })
@@ -80,14 +73,14 @@ export default function Watchlist({ onResearch }: { onResearch: (symbol: string)
             <tr className="border-b border-hairline text-left text-[10px] uppercase tracking-widest text-ink-faint">
               <th className="py-2.5 pl-5 pr-4 font-semibold">Ticker</th>
               <th className="py-2.5 pr-4 text-right font-semibold">Price</th>
-              <th className="py-2.5 pr-4 font-semibold">Call</th>
-              <th className="py-2.5 pr-4 text-right font-semibold">Score</th>
+              <th className="py-2.5 pr-4 text-right font-semibold">Day</th>
               <th className="py-2.5 pr-5 text-right font-semibold"></th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => {
-              const vs = VERDICT_STYLE[r.verdict] ?? VERDICT_STYLE.HOLD;
+              const up = r.changePct != null && r.changePct > 0;
+              const down = r.changePct != null && r.changePct < 0;
               return (
                 <tr key={r.symbol} className="border-b border-hairline-soft transition-colors last:border-0 hover:bg-paper">
                   <td className="py-3 pl-5 pr-4">
@@ -95,14 +88,8 @@ export default function Watchlist({ onResearch }: { onResearch: (symbol: string)
                     <span className="block max-w-[200px] truncate text-[11px] text-ink-faint">{r.name}</span>
                   </td>
                   <td className="num py-3 pr-4 text-right text-ink">{r.price != null ? fmtPrice(r.price) : "·"}</td>
-                  <td className="py-3 pr-4">
-                    <span className={`inline-block rounded-full px-2 py-0.5 text-[11px] font-semibold ${vs.bg} ${vs.text}`}>
-                      {r.verdict}
-                    </span>
-                  </td>
-                  <td className="num py-3 pr-4 text-right font-semibold text-ink">
-                    {r.score >= 0 ? "+" : ""}
-                    {r.score.toFixed(2)}
+                  <td className={`num py-3 pr-4 text-right font-semibold ${up ? "text-good" : down ? "text-bad" : "text-ink-faint"}`}>
+                    {r.changePct == null ? "·" : `${up ? "+" : ""}${fmtPct(r.changePct / 100)}`}
                   </td>
                   <td className="py-3 pr-5 text-right">
                     <div className="flex items-center justify-end gap-1.5">

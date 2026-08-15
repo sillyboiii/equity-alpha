@@ -44,7 +44,7 @@ export default function MarketsStrip() {
                   r.changePct == null ? "text-ink-faint" : up ? "text-good" : down ? "text-bad" : "text-ink-faint"
                 }`}
               >
-                {r.changePct == null ? "·" : `${up ? "+" : ""}${fmtPct(r.changePct)}`}
+                {r.changePct == null ? "·" : `${up ? "+" : ""}${fmtPct(r.changePct / 100)}`}
               </span>
               <span className="ml-2 h-3 w-px bg-hairline-soft" aria-hidden />
             </div>

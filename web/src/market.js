@@ -65,6 +65,9 @@ export async function getQuote(symbol) {
     shortName: q.shortName ?? q.longName ?? symbol,
     longName: q.longName ?? q.shortName ?? symbol,
     price: q.regularMarketPrice ?? q.postMarketPrice ?? null,
+    changePct:
+      q.regularMarketChangePercent ??
+      (q.regularMarketChange != null && q.regularMarketPrice ? (q.regularMarketChange / (q.regularMarketPrice - q.regularMarketChange)) * 100 : null),
     currency: q.currency ?? "USD",
     marketCap: q.marketCap ?? null,
     fiftyTwoWeekHigh: q.fiftyTwoWeekHigh ?? null,
