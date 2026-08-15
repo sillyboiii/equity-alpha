@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import AuthButton from "./AuthButton";
+import BacktestPanel from "./BacktestPanel";
 import CountUp from "./CountUp";
 import HowItWorks from "./HowItWorks";
 import Hub from "./Hub";
@@ -8,6 +10,7 @@ import Leaderboard from "./Leaderboard";
 import MarketsStrip from "./MarketsStrip";
 import NewsStrip from "./NewsStrip";
 import PaperPortfolio from "./PaperPortfolio";
+import PortfolioCheckup from "./PortfolioCheckup";
 import PriceChart from "./PriceChart";
 import Reveal from "./Reveal";
 import Screener from "./Screener";
@@ -264,6 +267,7 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
           </nav>
 
           <div className="flex shrink-0 items-center gap-2">
+            <AuthButton />
             <ThemeToggle />
             <a
               href="https://github.com/sillyboiii/equity-alpha"
@@ -282,9 +286,11 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
           <div key="hub" className="animate-tab-in">
             <MarketsStrip />
             <Hub onEnter={go} />
-            <Watchlist onResearch={(s: string) => run(s)} />
+            <BacktestPanel />
             <Leaderboard track={initialTrack} />
             <PaperPortfolio />
+            <PortfolioCheckup />
+            <Watchlist onResearch={(s: string) => run(s)} />
             <WeeklyLetter scoredCount={(initialTrack as { research?: { scoredSignals?: number } } | null)?.research?.scoredSignals ?? 0} />
             <NewsStrip />
           </div>

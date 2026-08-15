@@ -1,35 +1,24 @@
 "use client";
 
-type EntryId = "research" | "board" | "method" | "track";
-
-const ENTRIES: { id: EntryId; title: string; body: string; tag: string }[] = [
+const GUARDS = [
   {
-    id: "research",
-    title: "Deep-dive research",
-    body: "Score any ticker on six signals (trend, momentum, volatility, volume, value, quality) into one conviction call with a full breakdown.",
-    tag: "Any ticker, no judgment",
+    id: "noKnife",
+    title: "No falling knives",
+    body: "A name in a downtrend is a name we wait on. The trend is the law and the knife is not.",
   },
   {
-    id: "board",
-    title: "Board scan",
-    body: "Scan a whole universe in one pass. Mag 7, Chips, Retail, Pharma, Energy, or roll your own list and see who's flashing green.",
-    tag: "Whole sectors, one pass",
+    id: "noOverpay",
+    title: "No overpaying",
+    body: "Strong trend, absurd valuation? We pass. Momentum is not a reason to pay a decade of growth upfront.",
   },
   {
-    id: "method",
-    title: "How QNTL works",
-    body: "The six signals, the three guards, and why we'd rather pass than catch a falling knife. Read the fine print before you trust the call.",
-    tag: "Zero vibes, all receipts",
-  },
-  {
-    id: "track",
-    title: "Track record",
-    body: "Every non-hold signal, timestamped at entry and graded at the 30-day exit against the S&P 500. Public ledger, no cherry-picking.",
-    tag: "The receipts live here",
+    id: "noPumpShort",
+    title: "No shorting pumps",
+    body: "We don't short momentum, no matter how loud the take gets. Discipline cuts both ways.",
   },
 ];
 
-export default function Hub({ onEnter }: { onEnter: (tab: EntryId) => void }) {
+export default function Hub({ onEnter }: { onEnter: (tab: "research" | "board" | "method" | "track") => void }) {
   return (
     <>
       <section className="hero-grid mx-auto w-full max-w-5xl px-5 pt-20 pb-14 text-center">
@@ -45,37 +34,90 @@ export default function Hub({ onEnter }: { onEnter: (tab: EntryId) => void }) {
           <p className="animate-hero-word text-[11px] font-semibold uppercase tracking-[0.25em] text-ink-faint" style={{ animationDelay: "150ms" }}>
             Trend-first research, zero opinions
           </p>
-        <h1 className="font-display relative mt-4 text-4xl font-semibold leading-[1.08] tracking-tight text-ink sm:text-6xl">
-          <span className="inline-block animate-hero-word">We</span>{" "}
-          <span className="inline-block animate-hero-word" style={{ animationDelay: "260ms" }}>
-            never
-          </span>{" "}
-          <span className="inline-block animate-hero-word" style={{ animationDelay: "370ms" }}>
-            buy
-          </span>{" "}
-          <span className="inline-block animate-hero-word" style={{ animationDelay: "480ms" }}>
-            a
-          </span>{" "}
-          <span className="inline-block animate-hero-word font-normal text-ink-soft" style={{ animationDelay: "590ms" }}>
-            falling knife.
-          </span>
-        </h1>
-        <p className="relative mx-auto mt-5 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
-          QNTL scores long-term trends against a valuation guardrail. It refuses to overpay, won&apos;t
-          catch falling knives, and logs every call to a public ledger. No cherry-picking. No rose-tinted
-          hindsight. Just the receipts.
+          <h1 className="font-display relative mt-4 text-4xl font-semibold leading-[1.08] tracking-tight text-ink sm:text-6xl">
+            <span className="inline-block animate-hero-word">We</span>{" "}
+            <span className="inline-block animate-hero-word" style={{ animationDelay: "260ms" }}>
+              never
+            </span>{" "}
+            <span className="inline-block animate-hero-word" style={{ animationDelay: "370ms" }}>
+              buy
+            </span>{" "}
+            <span className="inline-block animate-hero-word" style={{ animationDelay: "480ms" }}>
+              a
+            </span>{" "}
+            <span className="inline-block animate-hero-word font-normal text-ink-soft" style={{ animationDelay: "590ms" }}>
+              falling knife.
+            </span>
+          </h1>
+          <p className="relative mx-auto mt-5 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
+            QNTL scores long-term trends against a valuation guardrail. It refuses to overpay, won&apos;t
+            catch falling knives, and logs every call to a public ledger. No cherry-picking. No rose-tinted
+            hindsight. Just the receipts.
+          </p>
+
+          <div className="relative mt-8 flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={() => onEnter("research")}
+              className="rounded-full bg-ink px-6 py-3 text-sm font-semibold text-paper transition-opacity hover:opacity-85"
+            >
+              Score a ticker
+            </button>
+            <a
+              href="#backtest"
+              className="rounded-full border border-hairline px-6 py-3 text-sm font-semibold text-ink-soft transition-colors hover:border-ink hover:text-ink"
+            >
+              See the proof ↓
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-5xl px-5 pb-10">
+        <p className="text-center text-[11px] font-semibold uppercase tracking-[0.25em] text-ink-faint">
+          The method, in three refusals
         </p>
+        <div className="mt-5 grid gap-4 sm:grid-cols-3">
+          {GUARDS.map((g) => (
+            <div key={g.id} className="rounded-2xl border border-hairline bg-panel p-6">
+              <p className="font-display text-lg font-semibold text-ink">{g.title}</p>
+              <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{g.body}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       <section className="mx-auto w-full max-w-5xl px-5 pb-20">
         <div className="grid gap-4 sm:grid-cols-2">
-          {ENTRIES.map((e, i) => (
+          {[
+            {
+              id: "research" as const,
+              title: "Deep-dive research",
+              body: "Score any ticker on six signals into one conviction call, with the reasoning laid out line by line.",
+              tag: "The thesis",
+            },
+            {
+              id: "board" as const,
+              title: "Board scan",
+              body: "Scan a whole universe in one pass and see who's flashing green and who's asking for a round trip.",
+              tag: "The sweep",
+            },
+            {
+              id: "method" as const,
+              title: "How QNTL works",
+              body: "Six signals, three guards, and the fine print you should read before trusting any call.",
+              tag: "The fine print",
+            },
+            {
+              id: "track" as const,
+              title: "Track record",
+              body: "Every call, timestamped at entry and graded against the S&P 500 at the 30-day mark. No cherry-picking.",
+              tag: "The receipts",
+            },
+          ].map((e) => (
             <button
               key={e.id}
               onClick={() => onEnter(e.id)}
-              className="animate-tab-in group rounded-2xl border border-hairline bg-panel p-7 text-left transition-all hover:-translate-y-0.5 hover:border-ink hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
-              style={{ animationDelay: `${600 + i * 120}ms` }}
+              className="group rounded-2xl border border-hairline bg-panel p-7 text-left transition-all hover:-translate-y-0.5 hover:border-ink hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
             >
               <p className="font-display text-xl font-semibold text-ink">{e.title}</p>
               <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{e.body}</p>
