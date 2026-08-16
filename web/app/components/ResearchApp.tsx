@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import AuthButton from "./AuthButton";
 import BacktestPanel from "./BacktestPanel";
 import CountUp from "./CountUp";
+import DecisionGate from "./DecisionGate";
+import DisciplineJournal from "./DisciplineJournal";
 import HowItWorks from "./HowItWorks";
 import Hub from "./Hub";
 import Leaderboard from "./Leaderboard";
@@ -287,6 +289,8 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
             <MarketsStrip />
             <Hub onEnter={go} />
             <PortfolioCheckup />
+            <DecisionGate />
+            <DisciplineJournal />
             <BacktestPanel />
             <Leaderboard track={initialTrack} />
             <PaperPortfolio />

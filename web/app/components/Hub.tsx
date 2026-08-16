@@ -63,10 +63,10 @@ export default function Hub({ onEnter }: { onEnter: (tab: "research" | "board" |
               Check my portfolio
             </a>
             <a
-              href="#backtest"
+              href="#gate"
               className="rounded-full border border-hairline px-6 py-3 text-sm font-semibold text-ink-soft transition-colors hover:border-ink hover:text-ink"
             >
-              Audit the method ↓
+              Run it through the gate ↓
             </a>
           </div>
         </div>
