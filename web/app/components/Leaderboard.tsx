@@ -24,7 +24,7 @@ export default function Leaderboard({ track }: { track: unknown }) {
     <section className="mx-auto w-full max-w-5xl px-5 pb-20">
       <div className="flex items-baseline justify-between gap-3">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">Signal leaderboard</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">The audit trail</p>
           <h2 className="font-display mt-1 text-2xl font-semibold text-ink sm:text-3xl">
             Every call, ranked by alpha.
           </h2>

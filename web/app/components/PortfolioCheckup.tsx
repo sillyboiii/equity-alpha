@@ -78,15 +78,15 @@ export default function PortfolioCheckup() {
     : "text-ink";
 
   return (
-    <section className="mx-auto w-full max-w-5xl px-5 pb-20">
+    <section id="checkup" className="mx-auto w-full max-w-5xl px-5 pb-20 scroll-mt-20">
       <div>
         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">Portfolio checkup</p>
         <h2 className="font-display mt-1 text-2xl font-semibold text-ink sm:text-3xl">
           What would QNTL say about your portfolio?
         </h2>
         <p className="mt-2 max-w-xl text-sm leading-relaxed text-ink-soft">
-          Paste your holdings. We&apos;ll score each one with the same six signals that drive every call, then tell
-          you straight: green light, yellow light, or red light.
+          Paste your holdings. We&apos;ll run each one through the same six signals that drive every call, then tell
+          you straight: green light, yellow light, or red light. This is the desk&apos;s first look at your money.
         </p>
       </div>
 

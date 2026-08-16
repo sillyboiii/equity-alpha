@@ -85,15 +85,15 @@ export default function BacktestPanel() {
     <section id="backtest" className="mx-auto w-full max-w-5xl px-5 pb-20">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">Backtest</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">Proof of method</p>
           <h2 className="font-display mt-1 text-2xl font-semibold text-ink sm:text-3xl">
             Did the rules actually make money?
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-ink-soft">
-            The engine&apos;s exact trend rules replayed over {` ${data ? data.period.years : years}`} years of
-            history: buy when price holds above the 50-day and 200-day EMAs (a live uptrend), then ride it
-            until price closes back below the 200-day. Equal weight, one decision a day, no hindsight.
-            Strategy against buying and holding, and against the S&amp;P 500 itself.
+            Before you trust the desk, audit the desk. The engine&apos;s exact trend rules replayed over
+            {` ${data ? data.period.years : years}`} years of history: buy when price holds above the 50-day and
+            200-day EMAs (a live uptrend), then ride it until price closes back below the 200-day. Equal weight,
+            one decision a day, no hindsight. Strategy against buying and holding, and against the S&amp;P 500.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">

@@ -286,10 +286,10 @@ export default function ResearchApp({ initialTrack }: { initialTrack: unknown })
           <div key="hub" className="animate-tab-in">
             <MarketsStrip />
             <Hub onEnter={go} />
+            <PortfolioCheckup />
             <BacktestPanel />
             <Leaderboard track={initialTrack} />
             <PaperPortfolio />
-            <PortfolioCheckup />
             <Watchlist onResearch={(s: string) => run(s)} />
             <WeeklyLetter scoredCount={(initialTrack as { research?: { scoredSignals?: number } } | null)?.research?.scoredSignals ?? 0} />
             <NewsStrip />

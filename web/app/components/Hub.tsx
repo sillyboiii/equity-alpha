@@ -32,7 +32,7 @@ export default function Hub({ onEnter }: { onEnter: (tab: "research" | "board" |
             className="animate-hero-logo mx-auto h-24 w-auto sm:h-32"
           />
           <p className="animate-hero-word text-[11px] font-semibold uppercase tracking-[0.25em] text-ink-faint" style={{ animationDelay: "150ms" }}>
-            Trend-first research, zero opinions
+            The discipline of a pro desk. On your phone.
           </p>
           <h1 className="font-display relative mt-4 text-4xl font-semibold leading-[1.08] tracking-tight text-ink sm:text-6xl">
             <span className="inline-block animate-hero-word">We</span>{" "}
@@ -50,23 +50,23 @@ export default function Hub({ onEnter }: { onEnter: (tab: "research" | "board" |
             </span>
           </h1>
           <p className="relative mx-auto mt-5 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
-            QNTL scores long-term trends against a valuation guardrail. It refuses to overpay, won&apos;t
-            catch falling knives, and logs every call to a public ledger. No cherry-picking. No rose-tinted
-            hindsight. Just the receipts.
+            QNTL runs your research like a quant desk: trend rules as law, a valuation guardrail, and every
+            call graded in public. It refuses to overpay, won&apos;t chase knives, and never lets you forget
+            what it told you. No cherry-picking. No rose-tinted hindsight. Just the receipts.
           </p>
 
           <div className="relative mt-8 flex flex-wrap items-center justify-center gap-3">
-            <button
-              onClick={() => onEnter("research")}
+            <a
+              href="#checkup"
               className="rounded-full bg-ink px-6 py-3 text-sm font-semibold text-paper transition-opacity hover:opacity-85"
             >
-              Score a ticker
-            </button>
+              Check my portfolio
+            </a>
             <a
               href="#backtest"
               className="rounded-full border border-hairline px-6 py-3 text-sm font-semibold text-ink-soft transition-colors hover:border-ink hover:text-ink"
             >
-              See the proof ↓
+              Audit the method ↓
             </a>
           </div>
         </div>
@@ -92,26 +92,26 @@ export default function Hub({ onEnter }: { onEnter: (tab: "research" | "board" |
             {
               id: "research" as const,
               title: "Deep-dive research",
-              body: "Score any ticker on six signals into one conviction call, with the reasoning laid out line by line.",
-              tag: "The thesis",
+              body: "Score any ticker on six signals into one conviction call, reasoning laid out line by line. An analyst memo you can actually audit.",
+              tag: "The memo",
             },
             {
               id: "board" as const,
               title: "Board scan",
-              body: "Scan a whole universe in one pass and see who's flashing green and who's asking for a round trip.",
+              body: "Sweep a whole universe in one pass and see who's flashing green and who's asking for a round trip.",
               tag: "The sweep",
             },
             {
               id: "method" as const,
               title: "How QNTL works",
-              body: "Six signals, three guards, and the fine print you should read before trusting any call.",
+              body: "Six signals, three guards, and the fine print you should read before trusting any call. This is the method.",
               tag: "The fine print",
             },
             {
               id: "track" as const,
               title: "Track record",
-              body: "Every call, timestamped at entry and graded against the S&P 500 at the 30-day mark. No cherry-picking.",
-              tag: "The receipts",
+              body: "Every call, timestamped at entry and graded against the S&P 500 at the 30-day mark. An audit trail, not a highlight reel.",
+              tag: "The audit",
             },
           ].map((e) => (
             <button

@@ -224,14 +224,14 @@ export default function PaperPortfolio() {
     <section className="mx-auto w-full max-w-5xl px-5 pb-20">
         <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">Paper portfolio</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">The live ledger</p>
           <h2 className="font-display mt-1 text-2xl font-semibold text-ink sm:text-3xl">
             QNTL puts $10k where its mouth is.
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-ink-soft">
             A simulated book that auto-follows the engine. Hit rebalance and the account buys every name QNTL rates a
             buy, exits everything else, and re-prices live from the tape. Every buy and exit is logged as a public
-            call and graded at 30 days against the S&amp;P 500.
+            call and graded at 30 days against the S&amp;P 500. No deleting the losses. That&apos;s the point.
           </p>
         </div>
         <div className="flex items-center gap-2">
